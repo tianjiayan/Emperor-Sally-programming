@@ -46,6 +46,9 @@
 
 <script setup>
 import screenfull from 'screenfull'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { useStore } from 'vuex'
+const store = useStore()
 const handleCommand = (command) => {
   switch (command) {
     case 'editPassword':
@@ -60,8 +63,27 @@ const handleCommand = (command) => {
 const handleEditPassword = () => {
   console.log('修改密码')
 }
-const logout = () => {
-  console.log('退出登录')
+const logout = async () => {
+  // console.log('退出登录')
+
+  ElMessageBox.confirm('是否要退出登录?', 'Warning', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(async () => {
+      await store.dispatch('user/logout')
+      ElMessage({
+        type: 'success',
+        message: '退出登录成功'
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消退出'
+      })
+    })
 }
 
 const toggleFullscreen = () => {

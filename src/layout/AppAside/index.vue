@@ -1,9 +1,40 @@
 <template>
+  <el-menu
+    :collapse="isCollapse"
+    :default-active="$route.path"
+    router
+    unique-opened
+  >
+    <MenuTree
+      v-for="(item, i) in menuList"
+      :key="i"
+      :i="i"
+      :item="item"
+    ></MenuTree>
+  </el-menu>
+</template>
+
+<script setup>
+import MenuTree from '@/layout/AppAside/MenuTree'
+import { useStore } from 'vuex'
+import { filterMenus } from '@/utils/filterMenus'
+import { computed } from 'vue'
+const store = useStore()
+const menuList = computed(() => {
+  return filterMenus(store.getters.menus)
+})
+const isCollapse = computed(() => {
+  return store.getters.isCollapse
+})
+</script>
+
+<style lang="scss" scoped></style>
+
+<!-- <template>
   <div>
     <el-menu
       class="el-menu-vertical-demo"
-      default-active="2"
-      unique-opened="true"
+      unique-opened
     >
       <el-sub-menu index="1">
         <template #title>
@@ -12,7 +43,7 @@
         </template>
         <el-menu-item index="1-1">主控台</el-menu-item>
       </el-sub-menu>
-      <el-sub-menu index="1">
+      <el-sub-menu index="10">
         <template #title>
           <el-icon><location /></el-icon>
           <span>商品管理</span>
@@ -71,4 +102,4 @@
 .el-menu-vertical-demo {
   border-right: 0;
 }
-</style>
+</style> -->

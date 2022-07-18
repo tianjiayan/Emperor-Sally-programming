@@ -1,11 +1,11 @@
-import { setItem, getItem } from '../../utils/storage'
-import { loginAPI, getUserInfo } from '../../api/user'
+import { setItem, getItem, removeItem } from '../../utils/storage'
+import { loginAPI, getUserInfo, getLogout } from '../../api/user'
+import router from '@/router'
 export default {
   namespaced: true,
   state: () => ({
     token: getItem('token') || '',
-    userInfo: {},
-    menus: []
+    userInfo: {}
   }),
   mutations: {
     setToken(state, token) {
@@ -14,11 +14,6 @@ export default {
     },
     setUserInfo(state, userInfo) {
       state.userInfo = userInfo
-      setItem('userInfo', userInfo)
-    },
-    setMenu(state, menus) {
-      state.menus = menus
-      setItem('menus', menus)
     }
   },
   actions: {
@@ -35,7 +30,15 @@ export default {
       const data = await getUserInfo()
       // console.log(response)
       commit('setUserInfo', data)
-      commit('setMenu', data.menus)
+    },
+    async logout({ commit }) {
+      await getLogout()
+      commit('setToken', '')
+      commit('setUserInfo', '')
+      commit('setMenu', '')
+      removeItem('token')
+      router.push('/login')
+      return true
     }
   }
 }
