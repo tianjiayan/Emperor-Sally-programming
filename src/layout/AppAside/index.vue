@@ -4,6 +4,7 @@
     :default-active="$route.path"
     router
     unique-opened
+    collapse-transition
   >
     <MenuTree
       v-for="(item, i) in menuList"
@@ -27,8 +28,6 @@ const isCollapse = computed(() => {
   return store.getters.isCollapse
 })
 </script>
-
-<style lang="scss" scoped></style>
 
 <!-- <template>
   <div>
@@ -96,10 +95,9 @@ const isCollapse = computed(() => {
   </div>
 </template>
 
-<script setup></script>
-
+<script setup></script> -->
 <style lang="scss" scoped>
-.el-menu-vertical-demo {
+.el-menu {
   border-right: 0;
 }
-</style> -->
+</style>

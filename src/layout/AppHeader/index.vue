@@ -4,7 +4,7 @@
       <el-icon class="mr-1"><ElemeFilled /></el-icon>
       积云编程
     </span>
-    <el-icon class="icon-btn"><Fold /></el-icon>
+    <el-icon @click="handleChangeIscollapse" class="icon-btn"><Fold /></el-icon>
     <el-icon class="icon-btn"><Refresh /></el-icon>
     <div class="ml-auto">
       <el-tooltip
@@ -17,11 +17,9 @@
           ><FullScreen
         /></el-icon>
       </el-tooltip>
-      <el-avatar
-        :size="25"
-        :src="$store.getters.userInfo.avatar"
-        class="avatar"
-      />
+      <el-avatar :size="25" class="avatar">
+        <img :src="$store.getters.userInfo.avatar" alt="" />
+      </el-avatar>
       <div>
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link text-light-50">
@@ -90,6 +88,10 @@ const toggleFullscreen = () => {
   if (screenfull.isEnabled) {
     screenfull.toggle()
   }
+}
+// 左側菜單收縮
+const handleChangeIscollapse = () => {
+  store.dispatch('menu/setCollapse')
 }
 </script>
 

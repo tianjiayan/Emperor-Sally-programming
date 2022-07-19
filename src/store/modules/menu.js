@@ -4,12 +4,12 @@ export default {
     isCollapse: false
   }),
   mutations: {
-    SET_coLLAPSE: (state) => {
-      state.collapse = !state.collapse
+    SET_coLLAPSE(state) {
+      state.isCollapse = !state.isCollapse
     }
   },
   actions: {
-    setCollapse: ({ commit }) => {
+    setCollapse({ commit }) {
       commit('SET_coLLAPSE')
     }
   }

@@ -34,8 +34,7 @@ export default {
     async logout({ commit }) {
       await getLogout()
       commit('setToken', '')
-      commit('setUserInfo', '')
-      commit('setMenu', '')
+      commit('setUserInfo', {})
       removeItem('token')
       router.push('/login')
       return true

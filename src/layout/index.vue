@@ -5,10 +5,11 @@
         <AppHeader></AppHeader>
       </el-header>
       <el-container>
-        <el-aside width="240px">
+        <el-aside :width="isCollapse ? '64px' : '250px'">
           <AppAside></AppAside>
         </el-aside>
         <el-main>
+          <tagesview></tagesview>
           <AppMain></AppMain>
         </el-main>
       </el-container>
@@ -20,6 +21,13 @@
 import AppHeader from './AppHeader/index.vue'
 import AppAside from './AppAside/index.vue'
 import AppMain from './AppMain/index.vue'
+import tagesview from '../components/tagesview.vue'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+const store = useStore()
+const isCollapse = computed(() => {
+  return store.getters.isCollapse
+})
 </script>
 
 <style lang="scss" scoped>
@@ -35,8 +43,10 @@ import AppMain from './AppMain/index.vue'
 .el-aside {
   background-color: white;
   height: 100%;
+  transition: al 0.4s;
 }
 .el-main {
+  padding-top:0 ;
   background-color: #e9eef3;
   color: #333;
 }
