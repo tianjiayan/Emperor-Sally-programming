@@ -99,5 +99,6 @@ const isCollapse = computed(() => {
 <style lang="scss" scoped>
 .el-menu {
   border-right: 0;
+  transition: all 0.4s;
 }
 </style>

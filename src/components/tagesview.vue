@@ -3,7 +3,6 @@
     <el-tabs
       :model-value="tabsName"
       type="card"
-      editable
       class="demo-tabs"
       @tab-remove="handleCloseTags"
       @tab-click="changeView"
@@ -17,6 +16,19 @@
       >
       </el-tab-pane>
     </el-tabs>
+    <el-dropdown @command="handleCommand">
+      <span class="el-dropdown-link">
+        <el-icon class="el-icon--right">
+          <arrow-down />
+        </el-icon>
+      </span>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item command="a">关闭其他</el-dropdown-item>
+          <el-dropdown-item command="b">全部关闭</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </div>
 </template>
 
@@ -73,6 +85,26 @@ const changeView = ({ props: { name } }) => {
   router.push(name)
 }
 
+const handleCommand = (command) => {
+  switch (command) {
+    case 'a':
+      handleother()
+      break
+    case 'b':
+      handleallclose()
+      break
+  }
+}
+// 关闭其他
+const handleother = () => {
+  store.commit('tagesview/delOther', route.path)
+}
+// 关闭所有
+const handleallclose = () => {
+  store.commit('tagesview/delAll')
+  router.push('/index')
+}
+
 // let tabIndex = 2
 // const editableTabsValue = ref('2')
 // const editableTabs = store.getters.tagsView
@@ -107,10 +139,30 @@ const changeView = ({ props: { name } }) => {
 </script>
 
 <style lang="scss" scoped>
-.box {
+.el-tabs {
   width: 100%;
+  border: 0;
+}
+.box {
+  width: 85%;
   position: fixed;
-  height: 44px;
+  height: 60px;
+  top: 61px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  z-index: 1000;
+}
+.el-dropdown-link {
+  background-color: white;
+  text-align: center;
+  padding: 6px;
+  padding-right: 9px;
+  border-radius: 2px;
+}
+.el-dropdown {
+  // margin-top: 320px;
 }
 .demo-tabs > .el-tabs__content {
   padding: 32px;
@@ -124,5 +176,6 @@ const changeView = ({ props: { name } }) => {
   border-radius: 5px;
   height: 30px;
   line-height: 30px;
+  border: 0;
 }
 </style>
