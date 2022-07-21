@@ -2,6 +2,7 @@ import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import store from '@/store'
+import { loading } from './loading'
 const instance = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000
@@ -11,7 +12,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     NProgress.start()
-
+    loading()
     const token = store.getters.token
     if (token) {
       config.headers.token = token
@@ -20,6 +21,7 @@ instance.interceptors.request.use(
   },
   function (error) {
     NProgress.done()
+    loading().close()
     return Promise.reject(error)
   }
 )
@@ -30,11 +32,13 @@ instance.interceptors.response.use(
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
     NProgress.done()
+    loading().close()
     return response.data.data
   },
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
+    loading().close()
     NProgress.done()
     return Promise.reject(error)
   }
